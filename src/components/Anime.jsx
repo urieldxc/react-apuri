@@ -8,6 +8,7 @@ function Anime() {
 
     
     useEffect(() => {
+        console.log("alberto")
         searchAnimeDetail(animeid).then(data => {
             const anime = {
                 title: data.data.title || "not found" ,
