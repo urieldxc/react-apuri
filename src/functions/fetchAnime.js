@@ -20,7 +20,13 @@ export const searchAnimeDetail = async ( animeid ) => {
 
 //Refactorizado
 export const searchAnimeByLetter = async( letter, page ) => {
-    let response = await fetch(`https://api.jikan.moe/v4/anime?letter=${letter}&page=${page}`, options)
+    let response = await fetch(`https://api.jikan.moe/v4/anime?letter=${letter}&page=${page}&limit=24`, options)
+    return response.json()
+    
+}
+
+export const searchAnimeByCategory = async( letter, page, category ) => {
+    let response = await fetch(`https://api.jikan.moe/v4/anime?genres=${category}&letter=${letter}&page=${page}&limit=24`, options)
     return response.json()
     
 }
