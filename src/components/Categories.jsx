@@ -1,32 +1,35 @@
-import { Paper } from '@mui/material';
+import { Pagination, Paper } from '@mui/material';
 import { Container, Stack } from '@mui/system';
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { searchAnimeByLetter } from '../functions/fetchAnime';
 import AnimeGrid from './AnimeGrid';
 import LetterButton from './LetterButton';
-import PageButton from './PageButton';
+
 
 const Categories = () => {
   const [animeList, setAnimeList] = useState([])
   const [selectedLetter, setSelectedLetter] = useState()
   const [currentPage, setCurrentPage] = useState(1)
+  const [pagesNum, setPagesNum] = useState();
 
   const abecedary1 = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
     "K", "L", "M"]
 
   const abecedary2 = ["N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
 
-
+  const handlePage = (e, value) => {
+    setCurrentPage(value)
+  }
 
   useEffect(() => {
     if (selectedLetter) {
-      searchAnimeByLetter(selectedLetter, currentPage).then(data =>{ 
+      searchAnimeByLetter(selectedLetter, currentPage).then(data => {
         setAnimeList(data.data)
-        setCurrentPage(data.pagination.last_visible_page)
+        setPagesNum(data.pagination.last_visible_page)
       })
     }
-  }, [selectedLetter])
+  }, [selectedLetter, currentPage])
 
   return (
     <div>
@@ -49,9 +52,31 @@ const Categories = () => {
               <div key={letter + i}> <LetterButton letter={letter} setSelectedLetter={setSelectedLetter} />  </div>)}
           </Stack>
         </Paper>
-        <AnimeGrid list={animeList} />
 
-        <PageButton pages={currentPage} />
+        {pagesNum &&
+          <Pagination 
+            sx={{ marginY:"32px" }}
+            count={pagesNum}
+            page={currentPage}
+            onChange={handlePage}
+            variant="outlined"
+            shape='rounded'
+            size='medium'
+          />
+        }
+
+        <AnimeGrid list={animeList} />
+        {pagesNum &&
+          <Pagination 
+            sx={{ marginY:"32px" }}
+            count={pagesNum}
+            page={currentPage}
+            onChange={handlePage}
+            variant="outlined"
+            shape='rounded'
+            size='medium'
+          />
+        }
 
       </Container>
     </div>

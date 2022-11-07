@@ -9,7 +9,7 @@ const AnimeGrid = ({ list }) => {
             direction={'row'}
             flexWrap={'wrap'}
             justifyContent="center"
-            my={10}
+            
         >
             {list.map((anime, i) => {
                 return (
